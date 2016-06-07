@@ -6,3 +6,4 @@ This is an ascii art
 | / \__+___/      
 |/     |/
 
+sao ko ra con ca?
