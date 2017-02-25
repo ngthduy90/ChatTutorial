@@ -38,7 +38,7 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 ### Milestone 2: Create a Login Screen
   - Create a new View Controller (or rename the default one) called `LoginViewController`.
   - `Import Firebase` to `the LoginViewController`
-  - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... but we are going to use the easiest one: `Anonymous` (To set up anonymous authentication, open the **Firebase App Dashboard** -> **Authentication** -> **Sign-In Method**, then enabale **Anonymous** and Save.)
+  - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... but we are going to use the easiest one: `Anonymous`. We already enabled `Anonymous` mode. (To set up anonymous authentication, open the **Firebase App Dashboard** -> **Authentication** -> **Sign-In Method**, then enable **Anonymous** and Save.)
   - Add the following views to the login screen:
     - An username text field 
     - A log in button
@@ -57,10 +57,10 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 
 ### Milestone 3: Send a Chat Message
   - Create a new View Controller (`ChatViewController`) for the chat room.
-  - After a successful sign up or log in from the `LoginViewController`, [modally present](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/#//apple_ref/occ/instm/UIViewController/presentViewController:animated:completion:) the `ChatViewController`.
+  - After a successful log in from the `LoginViewController`, modally present the `ChatViewController`.
     - The `ChatViewController` should have a title `Chat` and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
   - At the top of the layout, add a text field and a button to compose a new message. Make sure to set up your [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) constraints.
-  - When the user taps the button, [create a new message in Parse](https://parse.com/docs/ios/guide#saving-objects).
+  - When the user taps the button, [create a new message in Firebase](https://parse.com/docs/ios/guide#saving-objects).
      - Use the class name: `Message_Swift_102016` (this is case sensitive).
      - Store the text of the text field in a key called `text`.
      - Call `saveInBackground(block: PFBooleanResultBlock?)` and log when the message successfully saves using [NSLog](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Functions/#//apple_ref/c/func/NSLog).
