@@ -36,12 +36,21 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 
 ### Milestone 2: Create a Login Screen
   - Create a new View Controller (or rename the default one) called `LoginViewController`.
+  - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... but we are going to use the easiest one: `Anonymous` (To set up anonymous authentication, open the **Firebase App Dashboard** -> **Authentication** -> **Sign-In Method**, then enabale **Anonymous** and Save.)
   - Add the following views to the login screen:
-    - An email text field and a password text field
+    - An username text field 
     - A log in button
-    - A sign up button
-  - On sign up, attempt to [sign up to Parse](https://parse.com/docs/ios/guide#signing-up) (display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error).
-  - On log in, attempt to [log in to Parse](https://parse.com/docs/ios/guide#logging-in) (display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error).
+  - On log in action, attempt to [log in to Firebase]
+  ```swift
+        FIRAuth.auth()!.signInAnonymously(completion: { (user, error) in
+            if error == nil {
+                // login successfully, move to chatVC
+            } else {
+                // login failed, display an alert
+            }
+        })
+	```
+  - Display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error).
 
 ### Milestone 3: Send a Chat Message
   - Create a new View Controller (`ChatViewController`) for the chat room.
