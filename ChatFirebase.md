@@ -1,8 +1,10 @@
 ## Week 3 Challenge - Chat client with Firebase
 
-- [Lab Overview and Hints](https://youtu.be/MEdEpbfOQK4) (11 minutes)
+- [Lab Overview and Hints](https://youtu.be/MEdEpbfOQK4) (Should we have a quick introduction video here?)
 
-In this exercise you will build a chat client using [Firebase](https://console.firebase.google.com/) to explore the features of its ORM and backend service. You'll find that the ORM has many parallels with Core Data, the iOS persistence framework. We'll explore how to work with schema, creating and querying objects, and user authentication.
+In this exercise you will build a chat client using [Firebase](https://console.firebase.google.com/). We'll explore how to work with schema, creating and querying objects, and user authentication.
+
+  - In this lab, we will provide you the Firebase config file to use. If later (not today) you want to create your own project, go to the [Firebase](https://www.firebase.com/signup/), create an account, and then create a new Firebase project and follow the instruction there.
 
 At the end of the exercise your app should look something like this:
 
@@ -18,32 +20,19 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 
 ### Milestone 1: Setup
   - Create a new project. Run `pod init` to create a new Podfile.
-  - [Add the Parse pod](http://guides.codepath.com/ios/CocoaPods#adding-a-pod) to your project with: `pod 'Parse'`.
-  - For some reason you also need to uncomment the `platform :ios, '8.0'` for Parse to be found via `import`.
-<% if @cohort['language'] == 'swift' %>
+  - Add the Firebase pods to your project with:
+  ```
+  pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  ```
   - Make sure to [enable Swift support](http://guides.codepath.com/ios/CocoaPods#swift-support) by adding the `use_frameworks!` directive to your `Podfile`.
-  - Configure Parse
-     - In any Swift file that you're using Parse, add `import Parse` to the top of the file.
-     - In the AppDelegate, register Parse in the `application:didFinishLaunchingWithOptions:` function.
-
-```swift
-let configuration = ParseClientConfiguration {
-    $0.applicationId = "coderschool1"
-    $0.server = "http://nguoimay.herokuapp.com/parse"
-}
-Parse.initializeWithConfiguration(configuration)
-```
-
-<% else %>
-  - Configure Parse in the AppDelegate (`AppDelegate.m`):
-    - Import Parse: `#import <Parse/Parse.h>` (you'll need to do this everywhere you use Parse)
-	- Register Parse in `application:didFinishLaunchingWithOptions:`:
-
-   ```
-        [Parse setApplicationId:@"DXsvTSLgsKT03gSSqy6V5KbLwVpgfEjmEsKzzQUP"
-                      clientKey:@"BXAzmCJhMtIVWhLVEiKIMzPCA5XI0Nt9NwvAOPVd"];
-   ```
-<% end %>
+  - Add [config file](https://github.com/avo1/asciiFish/blob/master/GoogleService-Info.plist) to your project
+  
+  ![Import google plist](http://i.imgur.com/9m3sBNp.png)
+  
+  - Configure Firebase
+     - In any Swift file that you're using Firebase, add `import Firebase` to the top of the file.
 
 ### Milestone 2: Create a Login Screen
   - Create a new View Controller (or rename the default one) called `LoginViewController`.
