@@ -53,13 +53,16 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
             }
         })
 ```
-  - Display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error).
+  - Display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error.
 
 ### Milestone 3: Send a Chat Message
   - Create a new View Controller (`ChatViewController`) for the chat room.
   - After a successful log in from the `LoginViewController`, modally present the `ChatViewController`.
     - The `ChatViewController` should have a title `Chat` and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
   - At the top of the layout, add a text field and a button to compose a new message. Make sure to set up your [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) constraints.
+  
+  ![ChatVC](http://i.imgur.com/GrX8Yjb.png)
+  
   - When the user taps the button, [create a new message in Firebase](https://parse.com/docs/ios/guide#saving-objects).
      - Use the class name: `Message_Swift_102016` (this is case sensitive).
      - Store the text of the text field in a key called `text`.
