@@ -21,11 +21,12 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 ### Milestone 1: Setup
   - Create a new project. Run `pod init` to create a new Podfile.
   - Add the Firebase pods to your project with:
-  ```
+  
+```
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
-  ```
+```
   - Make sure to [enable Swift support](http://guides.codepath.com/ios/CocoaPods#swift-support) by adding the `use_frameworks!` directive to your `Podfile`.
   - Add [config file](https://github.com/avo1/asciiFish/blob/master/GoogleService-Info.plist) to your project
   
@@ -36,12 +37,14 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 
 ### Milestone 2: Create a Login Screen
   - Create a new View Controller (or rename the default one) called `LoginViewController`.
+  - `Import Firebase` to `the LoginViewController`
   - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... but we are going to use the easiest one: `Anonymous` (To set up anonymous authentication, open the **Firebase App Dashboard** -> **Authentication** -> **Sign-In Method**, then enabale **Anonymous** and Save.)
   - Add the following views to the login screen:
     - An username text field 
     - A log in button
-  - On log in action, attempt to [log in to Firebase]
-  ```swift
+  - On log in action, attempt to `signInAnnonymously`
+  
+```swift
         FIRAuth.auth()!.signInAnonymously(completion: { (user, error) in
             if error == nil {
                 // login successfully, move to chatVC
@@ -49,7 +52,7 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
                 // login failed, display an alert
             }
         })
-	```
+```
   - Display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error).
 
 ### Milestone 3: Send a Chat Message
