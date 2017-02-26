@@ -20,7 +20,14 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 
 ### Milestone 1: Setup
   - Create a new project. Run `pod init` to create a new Podfile.
-  - Add the Firebase pods to your project with: `pod 'Firebase/Core'`
+  - Add the Firebase pods to your project with: 
+  
+  ```
+  pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  ```
+  
   - Make sure to [enable Swift support](http://guides.codepath.com/ios/CocoaPods#swift-support) by adding the `use_frameworks!` directive to your `Podfile`.
   - Add [config file](https://github.com/avo1/ChatTutorial/blob/master/GoogleService-Info.plist) to your project
   
