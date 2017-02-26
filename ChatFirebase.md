@@ -108,30 +108,75 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
      - The `[".sv": "timestamp"]` will save the time since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time) in milliseconds. To retrieve `Date` from timestamp, use `NSDate(timeIntervalSince1970: (messageData["createdAt"] as! Double)/1000)`
 
-### Milestone 4: View the Chat Room
+### Milestone 4: Load the messages
+  - Pull down all the messages from [Firebase](https://firebase.google.com/docs/database/ios/read-and-write): Firebase allows you attach a listener (observer) to the database using the `observeEventType:withBlock` methods of `FIRDatabaseReference` to observe `FIRDataEventTypeValue` events.
+
+    - We have the `messageRef` in step 3, now create a `messageRefHandle` hold a handle to the reference.
+    - Declare the messages array of `[String: Any]`
+    
+    ```swift
+    lazy var messageRef: FIRDatabaseReference = FIRDatabase.database().reference().child("messages0217")
+    var messageRefHandle: FIRDatabaseHandle?
+    
+    var messages: [[String: Any]]()
+    ```
+    
+    - Add the observer to monitor if any new message added.
+    
+    ```swift
+    private func observeNewMessages() {
+        messageRefHandle = messageRef.observe(.childAdded, with: { (snapshot) in
+            let messageData = snapshot.value as! Dictionary<String, Any>
+            
+            if let name = messageData["sender"] as! String!, name.characters.count > 0 {
+                self.messages.append(messageData)
+                self.tableView.reloadData()
+            } else {
+                print("Error! Could not decode message data")
+            }
+            
+        })
+    }
+    ```
+    
+    - Call the observer in `viewDidLoad`.
+  
+  - It's a good practice (and is your responsibility) to detach the observer when you leave a ViewController. 
+    
+    ```swift
+    deinit {
+        if let refHandle = channelRefHandle {
+            channelRef.removeObserver(withHandle: refHandle)
+        }
+    }
+    ```
+
+### Milestone 5: Display message on TableView and logout
   - Display the messages in a TableView:
     - Add a tableView to the `ChatViewController` and a custom cell that will contain each message.
     - The cell will only contain a `senderLabel`, `messageLabel` (multi-line), and `timeLabel`.
     
-    ![messageCell](http://i.imgur.com/1iIWx5H.png)
+    ![messageCell](http://i.imgur.com/nnXCHQJ.png)
     
     - You'll want to use [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) and [automatically sizing rows](http://guides.codepath.com/ios/Table-View-Quickstart#automatically-resize-row-heights) in the tableView.
-  - Pull down all the messages from Firebase: Firebase automatically trigger 
+  - To calulate the `timeAgo`, install the pod `pod 'NSDate+TimeAgo'`
+  - If it's your message and change the display name to `you`, and change the text color.
+  - Log out: `try! FIRAuth.auth()!.signOut()`
+  
 
-    - Query Firebase for all messages using the `Message_Swift_102016` class.
-    - You can sort the results in descending order with the `createdAt` field.
-    - Once you have a successful response, save the result in an NSArray and reload the tableView data.
-
-### Milestone 5: Associating Users with Messages
-  - When creating a new message, add a key called `user` and set it to `PFUser.current()`
-  - Modify the custom message cell to display the [username](https://parse.com/docs/ios/guide#users) (if it exists).
-    - You might want to check out [UIStackView](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIStackView_Class_Reference) (iOS9+) for an easy way to hide views in your layout (for the case when there is no username).
-    - Toggling a view's [hidden](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIView_Class/#//apple_ref/occ/instp/UIView/hidden) property will add or remove it from its contained UIStackView.
-  - When querying for messages, use the method `includeKey("user")` to instruct Parse to [fetch the related user](https://parse.com/docs/ios/guide#relational-queries).
-
-### Milestone 6: Add "Log out" button. Go to Chat View Controller directly if not yet logged out.
-
-Parse stores the current user in the session. Take advantage of this to skip the login/signup page if the user is already logged in.
-Add Logout bar button item to the navigation bar of ChatViewController so that you can log in again as a different user.
-
-### Bonus 1: ???
+### Bonus 1: Login with email/password. Go to Chat View Controller directly if not yet logged out
+  - Enable email/password login: 
+    - Change your login screen to have the email/password text fields and Sign up/Login buttons.
+    - Use `FIRAuth.auth()?.signIn(withEmail:password:completion:)`
+  
+  - Firebase stores the current loged in user in `FIRAuth.auth()?.currentUser?` 
+  - Go to ChatViewController directly if already logged in: in LoginViewController's `viewDidLoad`
+  
+  ```swift
+        FIRAuth.auth()!.addStateDidChangeListener { (auth, user) in
+            if user != nil {
+                print("User \(user?.email) logged in")
+                self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            }
+        }
+  ```
