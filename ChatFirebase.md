@@ -82,22 +82,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   ![ChatVC](http://i.imgur.com/GrX8Yjb.png)
   
-  - When the user taps the button, [create a new message in Firebase](https://parse.com/docs/ios/guide#saving-objects).
-     - Use the class name: `Message_Swift_102016` (this is case sensitive).
-     - Store the text of the text field in a key called `text`.
-     - Call `saveInBackground(block: PFBooleanResultBlock?)` and log when the message successfully saves using [NSLog](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Functions/#//apple_ref/c/func/NSLog).
+  - When the user taps the button, create a new message in Firebase:
+     - On `ChatViewController`: Declare a `messageRef` to store a reference to the list of messages in the database. Use the class name: `messages0217` (this is case sensitive). Read more about [lazy](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html).
+     
+     ```swift
+     lazy var messageRef: FIRDatabaseReference = FIRDatabase.database().reference().child("messages0217")
+     ```
+     
+     - On action for the send button: Store the message item with 3 fields (sender, content, createdAt).
+     
+     ```swift
+     @IBAction func onSend(_ sender: UIButton) {
+        if let msg = textField?.text {
+            let newMessageRef = messageRef.childByAutoId()
+            let messageItem: [String: Any] = [
+                "sender": senderName,
+                "content": msg,
+                "createdAt": [".sv": "timestamp"]
+            ]
+            newMessageRef.setValue(messageItem)
+            textField.text = ""
+        }
+    }
+    ```
+    
+     - The `[".sv": "timestamp"]` will save the time since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time) in milliseconds.
 
 ### Milestone 4: View the Chat Room
   - Display the messages in a TableView:
     - Add a tableView to the `ChatViewController` and a custom cell that will contain each message.
     - For now, the cell will only contain a UILabel (multi-line) for the message.
     - You'll want to use [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) and [automatically sizing rows](http://guides.codepath.com/ios/Table-View-Quickstart#automatically-resize-row-heights) in the tableView.
-  - Pull down all the messages from Parse:
-<% if @cohort['language'] == 'swift' %>  
-    - Create a refresh function that is run every second. Guide: [Using Timers](http://guides.codepath.com/ios/Using-Timers)
-<% else %>
-    - Create a refresh function that is run [every second](https://github.com/codepath/objc_ios_guides/wiki/Using-Timers) to query Parse.
-<% end %>
+  - Pull down all the messages from Firebase: Firebase automatically trigger 
+
     - [Query Parse](https://parse.com/docs/ios/guide#queries) for all messages using the `Message_Swift_102016` class.
     - You can [sort the results](https://parse.com/docs/ios/guide#query-constraints) in descending order with the `createdAt` field.
     - Once you have a successful response, save the result in an NSArray and [reload](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITableView_Class/#//apple_ref/occ/instm/UITableView/reloadData) the tableView data.
