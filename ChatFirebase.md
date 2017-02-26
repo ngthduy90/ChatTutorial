@@ -1,14 +1,12 @@
 ## Week 3 Challenge - Chat client with Firebase
 
-- [Lab Overview and Hints](https://) (will capture a short video introduce Firebase here)
-
 In this exercise you will build a chat client using [Firebase](https://console.firebase.google.com/). We'll explore how to work with schema, creating and querying objects, and user authentication.
 
   - In this lab, we will provide you the Firebase config file to use. If later (not today) you want to create your own project, go to the [Firebase](https://www.firebase.com/signup/), create an account, and then create a new Firebase project and follow the instruction there.
 
 At the end of the exercise your app should look something like this:
 
-![Chat|250](http://i.imgur.com/xhiCRdml.png)
+![Chat|250](http://i.imgur.com/4zAoxHL.png)
 
 ### Getting Started
 
