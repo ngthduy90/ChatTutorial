@@ -89,13 +89,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      lazy var messageRef: FIRDatabaseReference = FIRDatabase.database().reference().child("messages0217")
      ```
      
-     - On action for the send button: Store the message item with 3 fields (sender, content, createdAt).
+     - On action for the send button: Store the message data with 3 fields (sender, content, createdAt).
      
      ```swift
      @IBAction func onSend(_ sender: UIButton) {
         if let msg = textField?.text {
             let newMessageRef = messageRef.childByAutoId()
-            let messageItem: [String: Any] = [
+            let messageData: [String: Any] = [
                 "sender": senderName,
                 "content": msg,
                 "createdAt": [".sv": "timestamp"]
@@ -106,18 +106,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     ```
     
-     - The `[".sv": "timestamp"]` will save the time since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time) in milliseconds.
+     - The `[".sv": "timestamp"]` will save the time since the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time) in milliseconds. To retrieve `Date` from timestamp, use `NSDate(timeIntervalSince1970: (messageData["createdAt"] as! Double)/1000)`
 
 ### Milestone 4: View the Chat Room
   - Display the messages in a TableView:
     - Add a tableView to the `ChatViewController` and a custom cell that will contain each message.
-    - For now, the cell will only contain a UILabel (multi-line) for the message.
+    - The cell will only contain a `senderLabel`, `messageLabel` (multi-line), and `timeLabel`.
+    
+    ![messageCell](http://i.imgur.com/1iIWx5H.png)
+    
     - You'll want to use [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) and [automatically sizing rows](http://guides.codepath.com/ios/Table-View-Quickstart#automatically-resize-row-heights) in the tableView.
   - Pull down all the messages from Firebase: Firebase automatically trigger 
 
-    - [Query Parse](https://parse.com/docs/ios/guide#queries) for all messages using the `Message_Swift_102016` class.
-    - You can [sort the results](https://parse.com/docs/ios/guide#query-constraints) in descending order with the `createdAt` field.
-    - Once you have a successful response, save the result in an NSArray and [reload](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UITableView_Class/#//apple_ref/occ/instm/UITableView/reloadData) the tableView data.
+    - Query Firebase for all messages using the `Message_Swift_102016` class.
+    - You can sort the results in descending order with the `createdAt` field.
+    - Once you have a successful response, save the result in an NSArray and reload the tableView data.
 
 ### Milestone 5: Associating Users with Messages
   - When creating a new message, add a key called `user` and set it to `PFUser.current()`
@@ -131,58 +134,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 Parse stores the current user in the session. Take advantage of this to skip the login/signup page if the user is already logged in.
 Add Logout bar button item to the navigation bar of ChatViewController so that you can log in again as a different user.
 
-### Bonus 1: Link to a Facebook Account
-
-Check out Parse instructions to include Facebook SDK with Parse [here](https://parse.com/docs/ios/guide#facebook-users).
-Add a SettingsViewController to let a user link to his or her own Facebook account and retrieve that person's profile picture. Display profile pictures on chat.
-
-
-<% if @cohort['language'] == 'objc' %>  
-### Bonus 1: Link a Facebook Account
-  - [Add the pods](http://guides.codepath.com/ios/CocoaPods#adding-a-pod) `'FBSDKCoreKit'` and `'ParseFacebookUtilsV4'` to authenticate with Facebook.
-  - Configure the Facebook SDK:  
-    - Modify your `info.plist` to include the keys outlined [in step 5](https://developers.facebook.com/docs/ios/getting-started#xcode):
-      - `Facebook App Id` = 1381230028782707
-      - `Display Name` = com.codepath.codepath
-    - Make sure to also follow the steps to whitelist Facebook domains for [App Transport Security](https://developers.facebook.com/docs/ios/getting-started#xcode).
-    - Also add the `fbauth2` url scheme to your `info.plist` as outlined in this [stackoverflow post](http://stackoverflow.com/a/32006111).
-  - Add the following code to your `AppDelegate`:
-      ```
-      // AppDelegate.m
-
-      #import <FBSDKCoreKit/FBSDKCoreKit.h>
-      #import <ParseFacebookUtilsV4/ParseFacebookUtilsV4.h>
-
-      // ...
-
-      - (BOOL)application:(UIApplication *)application
-      didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-          // ...          
-
-          [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
-          [[FBSDKApplicationDelegate sharedInstance] application:application
-                                   didFinishLaunchingWithOptions:launchOptions];
-
-		  // ...
-      }
-
-      - (BOOL)application:(UIApplication *)application
-                  openURL:(NSURL *)url
-        sourceApplication:(NSString *)sourceApplication
-               annotation:(id)annotation {
-          return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                                openURL:url
-                                                      sourceApplication:sourceApplication
-                                                             annotation:annotation];
-      }
-
-      // ...
-      ```
-  - Create a new `SettingsViewController` to allow the user to [connect his/her Facebook account](https://parse.com/docs/ios/guide#users-linking):
-    - You'll need to add: `#import <ParseFacebookUtilsV4/ParseFacebookUtilsV4.h>`
-    - Add a left bar button item on the ChatViewController to open the settings screen.
-    - If the user is not yet linked, show a "Link Facebook Account" button.
-    - If the account is already linked, display an unlink button.
-    - Add a "Done" button to close the `SettingsViewController`.
-<% end %>
+### Bonus 1: ???
