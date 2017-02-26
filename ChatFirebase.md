@@ -6,7 +6,7 @@ In this exercise you will build a chat client using [Firebase](https://console.f
 
 At the end of the exercise your app should look something like this:
 
-![Imgur](http://i.imgur.com/4zAoxHLt.png =300)
+![Imgur](http://i.imgur.com/4zAoxHL.png)
 
 ### Getting Started
 
