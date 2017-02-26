@@ -1,6 +1,6 @@
 ## Week 3 Challenge - Chat client with Firebase
 
-- [Lab Overview and Hints](https://youtu.be/MEdEpbfOQK4) (Should we have a quick introduction video here?)
+- [Lab Overview and Hints](https://) (will capture a short video introduce Firebase here)
 
 In this exercise you will build a chat client using [Firebase](https://console.firebase.google.com/). We'll explore how to work with schema, creating and querying objects, and user authentication.
 
@@ -20,20 +20,32 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
 
 ### Milestone 1: Setup
   - Create a new project. Run `pod init` to create a new Podfile.
-  - Add the Firebase pods to your project with:
-  
-```
-  pod 'Firebase/Storage'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Database'
-```
+  - Add the Firebase pods to your project with: `pod 'Firebase/Core'`
   - Make sure to [enable Swift support](http://guides.codepath.com/ios/CocoaPods#swift-support) by adding the `use_frameworks!` directive to your `Podfile`.
-  - Add [config file](https://github.com/avo1/asciiFish/blob/master/GoogleService-Info.plist) to your project
+  - Add [config file](https://github.com/avo1/ChatTutorial/blob/master/GoogleService-Info.plist) to your project
   
   ![Import google plist](http://i.imgur.com/9m3sBNp.png)
   
-  - Configure Firebase
-     - In any Swift file that you're using Firebase, add `import Firebase` to the top of the file.
+  - Configure Firebase in AppDelegate
+  
+```swift
+import UIKit
+import Firebase
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+  var window: UIWindow?
+
+  func application(application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?)
+    -> Bool {
+    FIRApp.configure()
+    return true
+  }
+}
+```
+   - In any Swift file that you're using Firebase, add `import Firebase` to the top of the file.
 
 ### Milestone 2: Create a Login Screen
   - Create a new View Controller (or rename the default one) called `LoginViewController`.
