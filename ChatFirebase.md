@@ -55,14 +55,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Milestone 2: Create a Login Screen
   - Create a new View Controller (or rename the default one) called `LoginViewController`.
   - `Import Firebase` to `the LoginViewController`
-  - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... but we are going to use the easiest one: `Anonymous`. We already enabled `Anonymous` mode. (To set up anonymous authentication, open the **Firebase App Dashboard** -> **Authentication** -> **Sign-In Method**, then enable **Anonymous** and Save.)
+  - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... We are going to use email/password method. We already enabled `Anonymous` mode.
   - Add the following views to the login screen:
-    - An username text field 
-    - A log in button
-  - On log in action, attempt to `signInAnnonymously`
+    - An email/password text field 
+    - A sign up/log in button
+  - On sign up action, attemp to `createUser(withEmail:password:)`
   
 ```swift
-        FIRAuth.auth()!.signInAnonymously(completion: { (user, error) in
+        FIRAuth.auth()!.createUser(withEmail: email, password: pass, completion: { (user: FIRUser?, error: Error?) in
+            if error == nil {
+                // signup successfully, auto login and move to chatVC
+            } else {
+                // login failed, display an alert
+            }
+        })
+  ```
+  - On log in action, attempt to `signIn(withEmail:password)`
+  
+```swift
+        FIRAuth.auth()!.signIn(withEmail: email, password: pass) { (user: FIRUser?, error: Error?) in
             if error == nil {
                 // login successfully, move to chatVC
             } else {
@@ -78,7 +89,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     - The `ChatViewController` should have a title `Chat` and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
   - At the top of the layout, add a text field and a button to compose a new message. Make sure to set up your [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) constraints.
   
-  ![ChatVC](http://i.imgur.com/GrX8Yjb.png)
+  ![ChatVC](http://i.imgur.com/yb4yPy3.png)
   
   - When the user taps the button, create a new message in Firebase:
      - On `ChatViewController`: Declare a `messageRef` to store a reference to the list of messages in the database. Use the class name: `messages0217` (this is case sensitive). Read more about [lazy](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html).
@@ -159,15 +170,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     - You'll want to use [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) and [automatically sizing rows](http://guides.codepath.com/ios/Table-View-Quickstart#automatically-resize-row-heights) in the tableView.
   - To calulate the `timeAgo`, install the pod `pod 'NSDate+TimeAgo'`
   - If it's your message and change the display name to `you`, and change the text color.
-  - Log out: `try! FIRAuth.auth()!.signOut()`
+  
   
 
-### Bonus 1: Login with email/password. Go to Chat View Controller directly if not yet logged out
-  - Enable email/password login: 
-    - Change your login screen to have the email/password text fields and Sign up/Login buttons.
-    - Use `FIRAuth.auth()?.signIn(withEmail:password:completion:)`
-  
-  - Firebase stores the current loged in user in `FIRAuth.auth()?.currentUser?` 
+### Milestone 6: Go to Chat View Controller directly if not yet logged out
   - Go to ChatViewController directly if already logged in: in LoginViewController's `viewDidLoad`
   
   ```swift
@@ -178,3 +184,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
   ```
+  
+  - Log out: `try! FIRAuth.auth()!.signOut()`
+  
+### Bonus: Additional features:
+  - Auto scroll tableView to show the latest message. Hint: use `tableView.scrollToRow`
+  - Only load 20 most recent messages, pull to fetch next 20.
+ 
