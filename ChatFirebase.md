@@ -62,24 +62,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   - On sign up action, attemp to `createUser(withEmail:password:)`
   
 ```swift
-        FIRAuth.auth()!.createUser(withEmail: email, password: pass, completion: { (user: FIRUser?, error: Error?) in
-            if error == nil {
-                // signup successfully, auto login and move to chatVC
-            } else {
-                // login failed, display an alert
-            }
-        })
-  ```
+   FIRAuth.auth()!.createUser(withEmail: email, password: pass, completion: { (user: FIRUser?, error: Error?) in
+       if error == nil {
+           // signup successfully, auto login and move to chatVC
+       } else {
+           // login failed, display an alert
+       }
+   })
+```
   - On log in action, attempt to `signIn(withEmail:password)`
   
 ```swift
-        FIRAuth.auth()!.signIn(withEmail: email, password: pass) { (user: FIRUser?, error: Error?) in
-            if error == nil {
-                // login successfully, move to chatVC
-            } else {
-                // login failed, display an alert
-            }
-        })
+   FIRAuth.auth()!.signIn(withEmail: email, password: pass) { (user: FIRUser?, error: Error?) in
+       if error == nil {
+           // login successfully, move to chatVC
+       } else {
+           // login failed, display an alert
+       }
+   })
 ```
   - Display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error.
 
@@ -177,12 +177,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   - Go to ChatViewController directly if already logged in: in LoginViewController's `viewDidLoad`
   
   ```swift
-        FIRAuth.auth()!.addStateDidChangeListener { (auth, user) in
-            if user != nil {
-                print("User \(user?.email) logged in")
-                self.performSegue(withIdentifier: "loginSegue", sender: nil)
-            }
-        }
+     FIRAuth.auth()!.addStateDidChangeListener { (auth, user) in
+         if user != nil {
+             print("User \(user?.email) logged in")
+             self.performSegue(withIdentifier: "loginSegue", sender: nil)
+         }
+     }
   ```
   
   - Log out: `try! FIRAuth.auth()!.signOut()`
