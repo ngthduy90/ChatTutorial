@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Milestone 3: Send a Chat Message
   - Create a new View Controller (`ChatViewController`) for the chat room.
   - After a successful log in from the `LoginViewController`, modally present the `ChatViewController`.
-    - The `ChatViewController` should have a title `Chat` and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
+    - The `ChatViewController` should have the logged in email as the title and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
   - At the top of the layout, add a text field and a button to compose a new message. Make sure to set up your [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) constraints.
   
   ![ChatVC](http://i.imgur.com/yb4yPy3.png)
