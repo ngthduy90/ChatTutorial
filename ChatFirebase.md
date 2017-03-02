@@ -201,7 +201,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   - Add the UITextFieldDelegate for the `textField` in `viewDidLoad`: `textField.delegate = self`
   - Created a `userIsTypingRef` to store a reference to the current user's typing indicator. When `isTyping` is set to new value, it will be updated to the `userIsTypingRef`
   
-  ```swift
+```swift
     lazy var userIsTypingRef: FIRDatabaseReference = FIRDatabase.database().reference().child("typingIndicator").child(self.senderId)
     lazy var usersTypingQuery: FIRDatabaseQuery =
         FIRDatabase.database().reference().child("typingIndicator").queryOrderedByValue().queryEqual(toValue: true)
@@ -223,7 +223,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         isTyping = newText != ""
         return true
     }
-    ```
+ ```
     
     - We then have the `usersTypingQuery` to query inside `typingIndicator` node, any item with `true` value.
     - Now add the observer to see when `usersTypingQuery` is changed. Then remember to call it in `viewDidLoad`.
@@ -231,7 +231,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       - You can display `how many` is typing with `data.childrenCount`
       - Call [onDisconnectRemoveValue](https://www.firebase.com/docs/ios-api/Classes/Firebase.html#//api/name/onDisconnectRemoveValue) to remove this data from database when user moves out of this View Controller.
     
-    ```swift
+```swift
     private func observeTyping() {
         let typingIndicatorRef = FIRDatabase.database().reference().child("typingIndicator")
         userIsTypingRef = typingIndicatorRef.child(self.senderId)
@@ -248,7 +248,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         userIsTypingRef.onDisconnectRemoveValue()
     }
-    ```
+ ```
     
   - Remember to remove the observer in `deinit` with `usersTypingQuery.removeAllObservers()`
 
