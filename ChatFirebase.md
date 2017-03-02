@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Milestone 2: Create a Login Screen
   - Create a new View Controller (or rename the default one) called `LoginViewController`.
   - `Import Firebase` to `the LoginViewController`
-  - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... We are going to use email/password method. We already enabled `Anonymous` mode.
+  - Firebase provides multiple sign-in method such as email/password, Google, Facebook,... We are going to use email/password method.
   - Add the following views to the login screen:
     - An email/password text field 
     - A sign up/log in button
@@ -86,11 +86,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Milestone 3: Send a Chat Message
   - Create a new `ChatViewController` for the chat room.
   - After a successful log in from the `LoginViewController`, modally present the `ChatViewController`.
-    - The `ChatViewController` should have the logged in email as the title and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
-    - In `prepareForSegue` pass the current user to `ChatViewController`
-    
+  - The `ChatViewController` should have the logged in email as the title and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
+  - In `prepareForSegue` pass the current user to `ChatViewController`
+      
     ```swift
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let navVC = segue.destination as! UINavigationController
         let chatVC = navVC.viewControllers.first as! ChatViewController
         chatVC.currentUser = FIRAuth.auth()?.currentUser
@@ -197,7 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
 ### Bonus 1: Someone is typing?
   - Add a label "someone is typing..." and hide it.
-  - Create the `var senderId: String!` in `ChatViewController`. The idea is to save to the database [senderId: isTyping]
+  - Create the `var senderId: String!` in `ChatViewController`. The idea is to save to the database, in the node `typingIndicator` this info: [senderId: isTyping]
   - Add the UITextFieldDelegate for the `textField` in `viewDidLoad`: `textField.delegate = self`
   - Created a `userIsTypingRef` to store a reference to the current user's typing indicator. When `isTyping` is set to new value, it will be updated to the `userIsTypingRef`
   
