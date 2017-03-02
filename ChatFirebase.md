@@ -138,8 +138,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let messageData = snapshot.value as! Dictionary<String, Any>
             
             if let name = messageData["sender"] as! String!, name.characters.count > 0 {
-                self.messages.append(messageData)
-                self.tableView.reloadData()
+                // add this message to the messages
             } else {
                 print("Error! Could not decode message data")
             }
@@ -180,7 +179,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      FIRAuth.auth()!.addStateDidChangeListener { (auth, user) in
          if user != nil {
              print("User \(user?.email) logged in")
-             self.performSegue(withIdentifier: "loginSegue", sender: nil)
+             // jump to chatVC
          }
      }
   ```
