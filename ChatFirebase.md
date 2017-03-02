@@ -168,7 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     - You'll want to use [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) and [automatically sizing rows](http://guides.codepath.com/ios/Table-View-Quickstart#automatically-resize-row-heights) in the tableView.
   - To calulate the `timeAgo`, install the pod `pod 'NSDate+TimeAgo'`
-  - If it's your message and change the display name to `you`, and change the text color.
+  - If it's your message and change the display name to `You`.
   
   
 
@@ -184,4 +184,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Bonus: Additional features:
   - Auto scroll tableView to show the latest message. Hint: use `tableView.scrollToRow`
   - Only load 20 most recent messages, pull to fetch next 20.
+  - Indicating "someone is typing..."
  
