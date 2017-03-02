@@ -109,7 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 "content": msg,
                 "createdAt": [".sv": "timestamp"]
             ]
-            newMessageRef.setValue(messageItem)
+            newMessageRef.setValue(messageData)
             textField.text = ""
         }
     }
