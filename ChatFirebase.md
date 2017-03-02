@@ -154,8 +154,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     ```swift
     deinit {
-        if let refHandle = channelRefHandle {
-            channelRef.removeObserver(withHandle: refHandle)
+        if let refHandle = messageRefHandle {
+            messageRef.removeObserver(withHandle: refHandle)
         }
     }
     ```
