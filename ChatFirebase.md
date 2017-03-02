@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   - Display an [alert](https://guides.codepath.com/ios/Using-UIAlertController) on error.
 
 ### Milestone 3: Send a Chat Message
-  - Create a new View Controller (`ChatViewController`) for the chat room.
+  - Create a new `ChatViewController` for the chat room.
   - After a successful log in from the `LoginViewController`, modally present the `ChatViewController`.
     - The `ChatViewController` should have the logged in email as the title and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
     - In `prepareForSegue` pass the current user to `ChatViewController`
@@ -196,7 +196,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   - Log out: `try! FIRAuth.auth()!.signOut()`
  
 ### Bonus 1: Someone is typing?
-  - Indicating "someone is typing..."
+  - Add a label "someone is typing..." and hide it.
+  - Create the `var senderId: String!` in `ChatViewController`. The idea is to save to the database [senderId: isTyping]
+  - Add the UITextFieldDelegate for the `textField` in `viewDidLoad`: `textField.delegate = self`
+  - Created a `userIsTypingRef` to store a reference to the current user's typing indicator. When `isTyping` is set to new value, it will be updated to the `userIsTypingRef`
+  
+  ```swift
+    lazy var userIsTypingRef: FIRDatabaseReference = FIRDatabase.database().reference().child("typingIndicator").child(self.senderId)
+    lazy var usersTypingQuery: FIRDatabaseQuery =
+        FIRDatabase.database().reference().child("typingIndicator").queryOrderedByValue().queryEqual(toValue: true)
+    
+    var localTyping = false
+    var isTyping: Bool {
+        get {
+            return localTyping
+        }
+        set {
+            localTyping = newValue
+            userIsTypingRef.setValue(newValue)
+        }
+    }
+    
+    // MARK: UITextFieldDelegate methods
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newText = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
+        isTyping = newText != ""
+        return true
+    }
+    ```
+    
+    - We then have the `usersTypingQuery` to query inside `typingIndicator` node, any item with `true` value.
+    - Now add the observer to see when `usersTypingQuery` is changed. Then remember to call it in `viewDidLoad`.
+      - If you are the only who typing, you may not wan't to say `someone is typing`
+      - You can display `how many` is typing with `data.childrenCount`
+      - Call [onDisconnectRemoveValue](https://www.firebase.com/docs/ios-api/Classes/Firebase.html#//api/name/onDisconnectRemoveValue) to remove this data from database when user moves out of this View Controller.
+    
+    ```swift
+    private func observeTyping() {
+        let typingIndicatorRef = FIRDatabase.database().reference().child("typingIndicator")
+        userIsTypingRef = typingIndicatorRef.child(self.senderId)
+        
+        usersTypingQuery.observe(.value) { (data: FIRDataSnapshot) in
+            // You're the only one typing, don't show the indicator
+            //if data.childrenCount == 1 && self.isTyping {
+            //    return
+            //}
+            
+            // Are there others typing?
+            self.typingIndicator.isHidden = data.childrenCount < 1
+        }
+        
+        userIsTypingRef.onDisconnectRemoveValue()
+    }
+    ```
+    
+  - Remember to remove the observer in `deinit` with `usersTypingQuery.removeAllObservers()`
 
   
 ### Additional features:
