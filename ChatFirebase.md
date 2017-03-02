@@ -87,6 +87,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   - Create a new View Controller (`ChatViewController`) for the chat room.
   - After a successful log in from the `LoginViewController`, modally present the `ChatViewController`.
     - The `ChatViewController` should have the logged in email as the title and should be inside a [navigation controller](http://guides.codepath.com/ios/Navigation-Controller-Quickstart).
+    - In `prepareForSegue` pass the current user to `ChatViewController`
+    
+    ```swift
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let navVC = segue.destination as! UINavigationController
+        let chatVC = navVC.viewControllers.first as! ChatViewController
+        chatVC.currentUser = FIRAuth.auth()?.currentUser
+    }
+    ```
+    
   - At the top of the layout, add a text field and a button to compose a new message. Make sure to set up your [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) constraints.
   
   ![ChatVC](http://i.imgur.com/yb4yPy3.png)
@@ -105,7 +115,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let msg = textField?.text {
             let newMessageRef = messageRef.childByAutoId()
             let messageData: [String: Any] = [
-                "sender": senderName,
+                "senderId": currentUser?.uid ?? "",
+                "email": currentUser?.email ?? "",
                 "content": msg,
                 "createdAt": [".sv": "timestamp"]
             ]
@@ -135,14 +146,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ```swift
     private func observeNewMessages() {
         messageRefHandle = messageRef.observe(.childAdded, with: { (snapshot) in
-            let messageData = snapshot.value as! Dictionary<String, Any>
             
-            if let name = messageData["sender"] as! String!, name.characters.count > 0 {
-                // add this message to the messages
+            let messageDict = snapshot.value as? [String: Any]
+            
+            if let msgData = messageDict {
+                if let email = msgData["email"] as! String!, email.characters.count > 0 {
+                    self.messages.append(Message(messageData: msgData))
+                    self.tableView.reloadData()
+                    let ip = NSIndexPath(row: self.messages.count-1, section: 0) as IndexPath
+                    self.tableView.scrollToRow(at: ip, at: UITableViewScrollPosition.top, animated: true)
+                }
             } else {
                 print("Error! Could not decode message data")
             }
-            
+
         })
     }
     ```
@@ -168,9 +185,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     - You'll want to use [auto layout](http://guides.codepath.com/ios/Auto-Layout-Basics) and [automatically sizing rows](http://guides.codepath.com/ios/Table-View-Quickstart#automatically-resize-row-heights) in the tableView.
   - To calulate the `timeAgo`, install the pod `pod 'NSDate+TimeAgo'`
-  - If it's your message and change the display name to `You`.
-  
-  
 
 ### Milestone 6: Go to Chat View Controller directly if not yet logged out
   - Go to ChatViewController directly if already logged in: in LoginViewController's `viewDidLoad`
@@ -180,9 +194,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   ```
   
   - Log out: `try! FIRAuth.auth()!.signOut()`
+ 
+### Bonus 1: Someone is typing?
+  - Indicating "someone is typing..."
+
   
-### Bonus: Additional features:
+### Additional features:
   - Auto scroll tableView to show the latest message. Hint: use `tableView.scrollToRow`
   - Only load 20 most recent messages, pull to fetch next 20.
-  - Indicating "someone is typing..."
+
  
