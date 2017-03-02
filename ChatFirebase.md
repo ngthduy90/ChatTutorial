@@ -176,12 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   - Go to ChatViewController directly if already logged in: in LoginViewController's `viewDidLoad`
   
   ```swift
-     FIRAuth.auth()!.addStateDidChangeListener { (auth, user) in
-         if user != nil {
-             print("User \(user?.email) logged in")
-             // jump to chatVC
-         }
-     }
+     ???
   ```
   
   - Log out: `try! FIRAuth.auth()!.signOut()`
