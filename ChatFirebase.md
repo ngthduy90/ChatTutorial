@@ -224,12 +224,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
  ```
-    
-    - We then have the `usersTypingQuery` to query inside `typingIndicator` node, any item with `true` value.
-    - Now add the observer to see when `usersTypingQuery` is changed. Then remember to call it in `viewDidLoad`.
-      - If you are the only who typing, you may not wan't to say `someone is typing`
-      - You can display `how many` is typing with `data.childrenCount`
-      - Call [onDisconnectRemoveValue](https://www.firebase.com/docs/ios-api/Classes/Firebase.html#//api/name/onDisconnectRemoveValue) to remove this data from database when user moves out of this View Controller.
+
+  - We then have the `usersTypingQuery` to query inside `typingIndicator` node, any item with `true` value.
+  - Now add the observer to see when `usersTypingQuery` is changed. Then remember to call it in `viewDidLoad`.
+    - If you are the only who typing, you may not wan't to say `someone is typing`
+    - You can display `how many` is typing with `data.childrenCount`
+    - Call [onDisconnectRemoveValue](https://www.firebase.com/docs/ios-api/Classes/Firebase.html#//api/name/onDisconnectRemoveValue) to remove this data from database when user moves out of this View Controller.
     
 ```swift
     private func observeTyping() {
