@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      - On `ChatViewController`: Declare a `messageRef` to store a reference to the list of messages in the database. Use the class name: `messages0217` (this is case sensitive). Read more about [lazy](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Properties.html).
      
      ```swift
-     lazy var messageRef: FIRDatabaseReference = FIRDatabase.database().reference().child("messages0217")
+     lazy var messageRef: FIRDatabaseReference = FIRDatabase.database().reference().child("messages0617")
      ```
      
      - On action for the send button: Store the message data with 3 fields (sender, content, createdAt).
