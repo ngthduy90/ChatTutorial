@@ -1,4 +1,4 @@
-## Week 3 Challenge - Chat client with Firebase
+ngthduy90# Week 3 Challenge - Chat client with Firebase
 
 In this exercise you will build a chat client using [Firebase](https://console.firebase.google.com/). We'll explore how to work with schema, creating and querying objects, and user authentication.
 
@@ -27,7 +27,7 @@ After you finish each checkpoint, switch the supervisor and driver roles. The pe
   ```
   
   - Make sure to [enable Swift support](http://guides.codepath.com/ios/CocoaPods#swift-support) by adding the `use_frameworks!` directive to your `Podfile`.
-  - Add [config file](https://github.com/avo1/ChatTutorial/blob/master/GoogleService-Info.plist) to your project
+  - Add [config file](https://github.com/ngthduy90/ChatTutorial/blob/master/GoogleService-Info.plist) to your project
   
   ![Import google plist](http://i.imgur.com/9m3sBNp.png)
   
